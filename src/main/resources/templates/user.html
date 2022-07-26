@@ -6,6 +6,24 @@
 <body>
 <h1>User, welcome spring boot security page!</h1>
 
+<form th:method="GET" th:action="@{/user}" th:object="${user}">
+    <label>First name: </label>
+    <b th:text = "${user.getFirstName()}">VALUE</b>
+    <br>
+    <br>
+    <label>Last name: </label>
+    <b th:text = "${user.getLastName()}">VALUE</b>
+    <br>
+    <br>
+    <label>Email: </label>
+    <b th:text = "${user.getEmail()}">VALUE</b>
+    <br>
+    <br>
+</form>
 
+<form th:action="@{/logout}">
+    <input type="submit" value="logout"/>
+</form>
 </body>
 </html>
+
