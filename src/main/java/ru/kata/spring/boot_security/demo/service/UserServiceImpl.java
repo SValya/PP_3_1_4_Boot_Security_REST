@@ -82,4 +82,11 @@ public class UserServiceImpl implements UserService{
         }
         return user;
     }
+
+    public void registerDefaultUser(User user) {
+        Role roleUser = roleRepository.findByName("ROLE_USER");
+        user.addRole(roleUser);
+        user.setPassword(bCryptPasswordEncoder.encode((user.getPassword())));
+        userRepository.save(user);
+    }
 }

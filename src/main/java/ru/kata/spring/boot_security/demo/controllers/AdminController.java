@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import ru.kata.spring.boot_security.demo.models.Role;
 import ru.kata.spring.boot_security.demo.models.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
@@ -28,13 +29,14 @@ public class AdminController {
     }
 
     @GetMapping("/admin/new")
-    public String newUser(@ModelAttribute("user") User user) {
+    public String newUser(Model model) {
+        model.addAttribute("user", new User());
         return "new";
     }
 
-    @PostMapping
+    @PostMapping("/admin")
     public String create(@ModelAttribute("user") User user) {
-        userService.addUser(user);
+        userService.registerDefaultUser(user);
         return "redirect:/admin";
     }
 
@@ -42,6 +44,9 @@ public class AdminController {
     public String editPage(@PathVariable("id") Long id, Model model) {
         User user = userService.findUserById(id);
         model.addAttribute("user", user);
+        List<Role> listRoles = userService.listRoles();
+        model.addAttribute("user", user);
+        model.addAttribute("listRoles", listRoles);
         return "editPage";
     }
 
