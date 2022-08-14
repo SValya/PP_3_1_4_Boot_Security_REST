@@ -22,6 +22,9 @@ public class User implements UserDetails {
     @Column(name = "last_name")
     private String lastName;
 
+    @Column(name = "age")
+    private Byte age;
+
     @Column(name = "email")
     private String email;
 
@@ -38,24 +41,10 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(Long id, String firstName, String lastName, String email, String password) {
-        this.id = id;
+    public User(String firstName, String lastName, Byte age, String email, String password, Set<Role> roles) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-    }
-
-    public User(String firstName, String lastName, String email, String password) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-    }
-
-    public User(String firstName, String lastName, String email, String password, Set<Role> roles) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.age = age;
         this.email = email;
         this.password = password;
         this.roles = roles;
@@ -83,6 +72,14 @@ public class User implements UserDetails {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public Byte getAge() {
+        return age;
+    }
+
+    public void setAge(Byte age) {
+        this.age = age;
     }
 
     public String getEmail() {
@@ -114,6 +111,7 @@ public class User implements UserDetails {
         return "User{" +
                 "firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
+                ", age='" + age + '\'' +
                 ", email='" + email + '\'' +
                 '}';
     }

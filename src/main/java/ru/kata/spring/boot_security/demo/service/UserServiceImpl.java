@@ -17,7 +17,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
@@ -44,19 +44,12 @@ public class UserServiceImpl implements UserService{
         userRepository.save(user);
     }
 
-
     @Override
     @Transactional
     public void deleteUserById(Long id) {
         if (userRepository.findById(id).isPresent()) {
             userRepository.deleteById(id);
         }
-    }
-    
-    @Override
-    @Transactional
-    public void edit(User user) {
-        userRepository.save(user);
     }
 
     @Override
