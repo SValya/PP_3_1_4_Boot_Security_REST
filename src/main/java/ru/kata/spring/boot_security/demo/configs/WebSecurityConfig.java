@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.filter.HiddenHttpMethodFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -16,6 +17,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final SuccessUserHandler successUserHandler;
 
     private final UserDetailsService userDetailsService;
+
 
     public WebSecurityConfig(SuccessUserHandler successUserHandler, UserDetailsService userDetailsService) {
         this.successUserHandler = successUserHandler;
@@ -29,8 +31,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/", "/index").permitAll()
                 .antMatchers("/user/**").hasAnyRole("ADMIN", "USER")
-                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/admin/**", "/api/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
+                //.anyRequest().permitAll()
                 .and()
                 .formLogin().loginPage("/index").loginProcessingUrl("/process_login")
                 .successHandler(successUserHandler)
@@ -63,6 +66,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public static BCryptPasswordEncoder getPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
 
 }
