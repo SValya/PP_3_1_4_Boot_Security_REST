@@ -12,7 +12,7 @@ import ru.kata.spring.boot_security.demo.service.UserService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/admin")
 public class AdminRestController {
 
     private final UserService userService;
@@ -22,44 +22,38 @@ public class AdminRestController {
         this.userService = userService;
     }
 
-    @GetMapping("/admin/roles")
+    @GetMapping("/roles")
     public ResponseEntity<List<Role>> getAllRoles() {
         List<Role> listRoles = userService.listRoles();
-        return new ResponseEntity<>(listRoles, HttpStatus.OK);
+        return ResponseEntity.ok().body(listRoles);
     }
 
-    @GetMapping("/admin/users")
+    @GetMapping("/users")
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userService.findAllUsers();
-        return new ResponseEntity<>(users, HttpStatus.OK);
+        return ResponseEntity.ok().body(users);
     }
 
-    @GetMapping({"/admin/users/{id}"})
+    @GetMapping({"/users/{id}"})
     public ResponseEntity<User> getUser(@PathVariable Long id) {
         User user = userService.findUserById(id);
-        return user != null
-                ? new ResponseEntity<>(user, HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return ResponseEntity.ok().body(user);
     }
 
-    @PostMapping("/admin/users")
+    @PostMapping("/users")
     public ResponseEntity<User> saveUser(@RequestBody User user) {
         userService.addUser(user);
-        return user != null
-                ? new ResponseEntity<>(user, HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+        return ResponseEntity.ok().body(user);
     }
-    @PutMapping("/admin/users")
+    @PutMapping("/users")
     public ResponseEntity<User> updateUser(@RequestBody User user) {
         userService.addUser(user);
-        return user != null
-                ? new ResponseEntity<>(user, HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+        return ResponseEntity.ok().body(user);
     }
 
-    @DeleteMapping("/admin/users/{id}")
+    @DeleteMapping("/users/{id}")
     public ResponseEntity<User> deleteUser(@PathVariable Long id) {
         userService.deleteUserById(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return ResponseEntity.noContent().build();
     }
 }
